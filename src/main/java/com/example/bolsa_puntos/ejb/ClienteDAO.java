@@ -23,4 +23,17 @@ public class ClienteDAO {
         Query q = em.createQuery("select c from Cliente  c");
         return (List<Cliente>) q.getResultList();
     }
+
+    public void eliminar(int id){
+        Cliente cliente=em.find(Cliente.class,id);
+        em.remove(cliente);
+    }
+
+    public void actualizar(Cliente cliente){
+        em.merge(cliente);
+    }
+
+    public Cliente ver(int id){
+        return em.find(Cliente.class,id);
+    }
 }

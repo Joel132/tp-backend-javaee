@@ -1,45 +1,45 @@
 package com.example.bolsa_puntos.rest;
 
-import com.example.bolsa_puntos.ejb.ClienteDAO;
-import com.example.bolsa_puntos.model.Cliente;
+import com.example.bolsa_puntos.ejb.ReglaDAO;
+import com.example.bolsa_puntos.model.ReglaPunto;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("/cliente")
+@Path("/regla")
 @Produces("application/json")
 @Consumes("application/json")
-public class ClienteRest {
+public class ReglaRest {
 
     @Inject
-    private ClienteDAO clienteDAO;
+    private ReglaDAO reglaDAO;
 
     @GET
     @Path("/")
     public Response listar(){
-        return Response.ok(clienteDAO.lista()).build();
+        return Response.ok(reglaDAO.lista()).build();
     }
 
     @POST
     @Path("/")
-    public Response agregar(Cliente cliente){
-        clienteDAO.agregar(cliente);
+    public Response agregar(ReglaPunto regla){
+        reglaDAO.agregar(regla);
         return Response.ok().build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response actualizar(Cliente cliente, @PathParam("id") int id){
-        cliente.setId(id);
-        clienteDAO.actualizar(cliente);
+    public Response actualizar(ReglaPunto regla, @PathParam("id") int id){
+        regla.setId(id);
+        reglaDAO.actualizar(regla);
         return Response.ok().build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response eliminar(@PathParam("id") int id){
-        clienteDAO.eliminar(id);
+        reglaDAO.eliminar(id);
         return Response.ok().build();
     }
 }

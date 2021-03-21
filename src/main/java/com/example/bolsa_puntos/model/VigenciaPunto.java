@@ -1,5 +1,7 @@
 package com.example.bolsa_puntos.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,10 +17,12 @@ public class VigenciaPunto {
 
     @Column(name="fecha_inicio",nullable = false)
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fechaInicio;
 
     @Column(name="fecha_fin",nullable = false)
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fechaFin;
 
     @Column(name = "duracion_dias", nullable = false)

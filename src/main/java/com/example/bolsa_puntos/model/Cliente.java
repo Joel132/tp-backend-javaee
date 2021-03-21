@@ -1,8 +1,10 @@
 package com.example.bolsa_puntos.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +18,11 @@ public class Cliente {
     @Column(name = "id_cliente",nullable = false)
     private Integer id;
 
-    @Column(name = "apellido",nullable = false)
+    @Column(name = "nombre",nullable = false)
     private String nombre;
+
+    @Column(name = "apellido",nullable = false)
+    private String apellido;
 
     @Column(name = "nro_documento",nullable = false)
     private Integer nroDocumento;
@@ -36,15 +41,16 @@ public class Cliente {
 
     @Column(name="fecha_nacimiento",nullable = false)
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fechaNacimiento;
 
-    @OneToMany(mappedBy = "cliente")
-    @JsonManagedReference
-    private List<BolsaPunto> puntos;
-
-    @OneToMany(mappedBy = "cliente")
-    @JsonManagedReference
-    private List<UsoPunto> usoPuntos;
+//    @OneToMany(mappedBy = "cliente")
+//    @JsonManagedReference
+//    private List<BolsaPunto> puntos=new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "cliente")
+//    @JsonManagedReference
+//    private List<UsoPunto> usoPuntos=new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -110,19 +116,27 @@ public class Cliente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public List<BolsaPunto> getPuntos() {
-        return puntos;
+//    public List<BolsaPunto> getPuntos() {
+//        return puntos;
+//    }
+//
+//    public void setPuntos(List<BolsaPunto> puntos) {
+//        this.puntos = puntos;
+//    }
+//
+//    public List<UsoPunto> getUsoPuntos() {
+//        return usoPuntos;
+//    }
+//
+//    public void setUsoPuntos(List<UsoPunto> usoPuntos) {
+//        this.usoPuntos = usoPuntos;
+//    }
+
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setPuntos(List<BolsaPunto> puntos) {
-        this.puntos = puntos;
-    }
-
-    public List<UsoPunto> getUsoPuntos() {
-        return usoPuntos;
-    }
-
-    public void setUsoPuntos(List<UsoPunto> usoPuntos) {
-        this.usoPuntos = usoPuntos;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 }

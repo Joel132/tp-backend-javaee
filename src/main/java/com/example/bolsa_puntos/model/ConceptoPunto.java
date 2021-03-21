@@ -8,9 +8,9 @@ import javax.persistence.*;
 public class ConceptoPunto {
 
     @Id
-    @Column(name = "id_vigencia", nullable = false)
-    @GeneratedValue(generator = "vigenciaSec", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "vigenciaSec", sequenceName = "vigencia_sec")
+    @Column(name = "id_concepto", nullable = false)
+    @GeneratedValue(generator = "conceptoSec", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "conceptoSec", sequenceName = "concepto_sec")
     private Integer id;
 
     @Column(name = "descripcion", nullable = false)
