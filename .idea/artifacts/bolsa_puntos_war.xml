@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="bolsa_puntos-1.0-SNAPSHOT.war">
+    <root id="archive" name="bolsapuntos.war">
       <element id="artifact" artifact-name="bolsa_puntos:war exploded" />
     </root>
   </artifact>

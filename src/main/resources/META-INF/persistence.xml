@@ -11,6 +11,10 @@
         <jta-data-source>java:jboss/datasources/laboratorio</jta-data-source>
         <!--class>py.com.progweb.prueba.model.Persona</class-->
         <class>com.example.bolsa_puntos.model.Cliente</class>
+        <class>com.example.bolsa_puntos.model.ReglaPunto</class>
+        <class>com.example.bolsa_puntos.model.VigenciaPunto</class>
+        <class>com.example.bolsa_puntos.model.ConceptoPunto</class>
+        <class>com.example.bolsa_puntos.model.BolsaPunto</class>
         <properties>
             <property name="hibernate.id.new_generator_mappings" value="true"/>
             <property name="hibernate.show_sql" value="true" />

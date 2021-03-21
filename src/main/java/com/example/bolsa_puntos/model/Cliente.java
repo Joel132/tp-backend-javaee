@@ -1,7 +1,10 @@
 package com.example.bolsa_puntos.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "cliente")
@@ -34,6 +37,14 @@ public class Cliente {
     @Column(name="fecha_nacimiento",nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+
+    @OneToMany(mappedBy = "cliente")
+    @JsonManagedReference
+    private List<BolsaPunto> puntos;
+
+    @OneToMany(mappedBy = "cliente")
+    @JsonManagedReference
+    private List<UsoPunto> usoPuntos;
 
     public Integer getId() {
         return id;
@@ -97,5 +108,21 @@ public class Cliente {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public List<BolsaPunto> getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(List<BolsaPunto> puntos) {
+        this.puntos = puntos;
+    }
+
+    public List<UsoPunto> getUsoPuntos() {
+        return usoPuntos;
+    }
+
+    public void setUsoPuntos(List<UsoPunto> usoPuntos) {
+        this.usoPuntos = usoPuntos;
     }
 }
