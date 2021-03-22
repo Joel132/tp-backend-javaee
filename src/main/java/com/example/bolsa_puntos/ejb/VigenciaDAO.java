@@ -4,8 +4,10 @@ import com.example.bolsa_puntos.model.VigenciaPunto;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -35,5 +37,26 @@ public class VigenciaDAO {
 
     public VigenciaPunto ver(int id){
         return em.find(VigenciaPunto.class,id);
+    }
+
+    /**
+     * Obtiene el registro de vigencia perteneciente a una fecha
+     * @param fecha fecha a tener en cuenta
+     * @return un registro de VigenciaPunto donde indica la fecha de inicio y fin de la promocion. null si no existe
+     */
+    public VigenciaPunto intervaloPerteneciente(Date fecha){
+        Query q = em.createQuery("select v from VigenciaPunto v " +
+                "where v.fechaInicio<=:fec and v.fechaFin>=:fec");
+        VigenciaPunto v;
+        try {
+            v = (VigenciaPunto) q.getSingleResult();
+        }
+        catch (NoResultException ex){
+            v = null;
+        }
+        catch (Exception ex){
+            throw ex;
+        }
+        return v;
     }
 }

@@ -16,6 +16,12 @@ public class ReglaRest {
     private ReglaDAO reglaDAO;
 
     @GET
+    @Path("/puntos")
+    public Response puntos(@QueryParam("monto")int monto){
+        return Response.ok(reglaDAO.puntosConseguidos(monto)).build();
+    }
+
+    @GET
     @Path("/")
     public Response listar(){
         return Response.ok(reglaDAO.lista()).build();
@@ -24,7 +30,12 @@ public class ReglaRest {
     @POST
     @Path("/")
     public Response agregar(ReglaPunto regla){
-        reglaDAO.agregar(regla);
+        try{
+            reglaDAO.agregar(regla);
+        }catch (Exception ex){
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+
+        }
         return Response.ok().build();
     }
 

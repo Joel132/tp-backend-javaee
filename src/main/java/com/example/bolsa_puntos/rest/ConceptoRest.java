@@ -4,6 +4,7 @@ import com.example.bolsa_puntos.ejb.ConceptoDAO;
 import com.example.bolsa_puntos.model.ConceptoPunto;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 

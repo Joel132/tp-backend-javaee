@@ -3,9 +3,18 @@ package com.example.bolsa_puntos.model;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.Payload;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import java.lang.annotation.*;
 
 @Table(name = "regla_puntos")
 @Entity
+@IntervaloCorrecto(message = "Limite Superior debe ser mayor o igual al limite inferior")
 public class ReglaPunto {
 
     @Id
@@ -15,12 +24,16 @@ public class ReglaPunto {
     private Integer id;
 
     @Column(name = "limite_inferior")
+    @PositiveOrZero
     private Integer limiteInferior;
 
     @Column(name = "limite_superior")
+    @Positive
     private Integer limiteSuperior;
 
     @Column(name = "equivalencia",nullable = false)
+    @NotNull
+    @Positive
     private Integer equivalencia;
 
     public Integer getId() {
@@ -63,5 +76,35 @@ public class ReglaPunto {
             return monto/this.getEquivalencia();
         }
         return 0;
+    }
+}
+
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = { IntervaloCorrectoValidator.class })
+@Documented
+ @interface IntervaloCorrecto {
+
+    String message() default "{org.hibernate.validator.referenceguide.chapter06.classlevel." +
+            "IntervaloCorrecto.message}";
+
+    Class<?>[] groups() default { };
+
+    Class<? extends Payload>[] payload() default { };
+}
+
+class IntervaloCorrectoValidator
+        implements ConstraintValidator<IntervaloCorrecto, ReglaPunto> {
+
+    @Override
+    public void initialize(IntervaloCorrecto constraintAnnotation) {
+    }
+
+    @Override
+    public boolean isValid(ReglaPunto regla, ConstraintValidatorContext context) {
+        if ( regla == null || regla.getLimiteInferior()==null || regla.getLimiteSuperior()==null) {
+            return true;
+        }
+        return regla.getLimiteSuperior().intValue()>=regla.getLimiteInferior().intValue();
     }
 }
