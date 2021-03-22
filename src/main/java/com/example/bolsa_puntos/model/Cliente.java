@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,29 +23,45 @@ public class Cliente {
     private Integer id;
 
     @Column(name = "nombre",nullable = false)
+    @NotNull
+    @NotBlank
     private String nombre;
 
     @Column(name = "apellido",nullable = false)
+    @NotNull
+    @NotBlank
     private String apellido;
 
     @Column(name = "nro_documento",nullable = false)
+    @NotNull
+    @Positive
     private Integer nroDocumento;
 
     @Column(name = "tipo_documento",nullable = false)
+    @NotNull
+    @NotBlank
     private String tipoDocumento;
 
     @Column(name = "nacionalidad",nullable = false)
+    @NotNull
+    @NotBlank
     private String nacionalidad;
 
     @Column(name = "email",nullable = false)
+    @NotNull
+    @Email
     private String email;
 
     @Column(name = "telefono",nullable = false)
+    @NotNull
+    @NotBlank
     private String telefono;
 
     @Column(name="fecha_nacimiento",nullable = false)
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
+    @NotBlank
     private Date fechaNacimiento;
 
 //    @OneToMany(mappedBy = "cliente")
