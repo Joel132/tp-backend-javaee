@@ -33,8 +33,8 @@ public class UsoPuntosRest {
     @GET
     @Path("/")
     public Response obtenerUsoPuntos(@QueryParam("id_cliente") int id_cliente, 
-    @QueryParam("fecha_uso") Date fecha_uso, @QueryParam("id_concepto_uso") int id_concepto ){
-        return Response.ok().build();
+    @QueryParam("fecha_uso") Date fecha_uso, @QueryParam("id_concepto_uso") int id_concepto ) throws Exception{
+        return Response.ok(usoPuntosDAO.listar(id_cliente, fecha_uso, id_concepto)).build();
     }
     
 }
