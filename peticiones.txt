@@ -1,0 +1,196 @@
+
+            CLIENTES
+Peticion para Crear un nuevo cliente:
+POST a http://localhost:8080/bolsapuntos/api/cliente/
+HEADER: content-type: application/json
+BODY:
+{
+    "nombre": "Juán",
+    "apellido": "Perez",
+    "nroDocumento": 1111111,
+    "tipoDocumento": "CI",
+    "nacionalidad": "Paraguaya",
+    "email": "juanperez@gmail.com",
+    "telefono": "0981123456",
+    "fechaNacimiento": "1990-05-05"
+}
+
+Peticion para obtener la lista de Clientes:
+GET a http://localhost:8080/bolsapuntos/api/cliente/
+
+Peticion para modificar un Cliente:
+PUT a http://localhost:8080/bolsapuntos/api/cliente/{id}
+PATH: http://localhost:8080/bolsapuntos/api/cliente/2
+HEADER: content-type: application/json
+BODY:
+{
+    "nombre": "Carlos",
+    "apellido": "Gonzalez",
+    "nroDocumento": 222222,
+    "email": "carlosgonzalez@gmail.com",
+}
+
+Peticion para eliminar un Cliente:
+DELETE a http://localhost:8080/bolsapuntos/api/cliente/{id}
+PATH: http://localhost:8080/bolsapuntos/api/cliente/2
+
+
+
+            CONCEPTO DE PUNTOS
+Peticion para crear un nuevo Concepto:
+POST a http://localhost:8080/bolsapuntos/api/concepto
+HEADER: content-type: application/json
+BODY:
+{
+    "descripcion": "Termo para Terere con Guampa",
+    "puntosRequerido": 75
+}
+
+Peticion para obtener la lista de Conceptos:
+GET a http://localhost:8080/bolsapuntos/api/concepto
+
+Peticion para modificar un Conceptos:
+PUT a http://localhost:8080/bolsapuntos/api/concepto/{id}
+PATH: http://localhost:8080/bolsapuntos/api/concepto/2
+HEADER: content-type: application/json
+BODY:
+{
+    "descripcion": "Termo para Terere con Guampa",
+    "puntosRequerido": 70
+}
+
+Peticion para eliminar un Conceptos:
+DELETE a http://localhost:8080/bolsapuntos/api/cliente/{id}
+PATH: http://localhost:8080/bolsapuntos/api/cliente/2
+
+
+
+            REGLAS DE ASIGNACION DE PUNTOS
+Peticion para obtener la lista de Reglas:
+GET a http//:localhost:8080/bolsapuntos/api/regla
+
+Peticion para crear una Regla general con 1 punto cada 50.000:
+POST a http://localhost:8080/bolsapuntos/api/regla/
+HEADER: content-type: application/json
+BODY:
+{
+    "equivalencia": 50000
+}
+
+Peticion para crear una Regla con rango de dinero con 1 punto cada 100.000:
+POST a http://localhost:8080/bolsapuntos/api/regla/
+HEADER: content-type: application/json
+BODY:
+{
+    "limiteInferior": 200000,
+    "limiteInferior": 500000,
+    "equivalencia": 100000
+}
+
+Peticion para modificar una Regla:
+PUT a http://localhost:8080/bolsapuntos/api/regla/{id}
+PATH: http://localhost:8080/bolsapuntos/api/regla/2
+HEADER: content-type: application/json
+BODY:
+{
+    "limiteInferior": 100000,
+    "limiteInferior": 300000,
+    "equivalencia": 50000
+}
+
+Peticion para eliminar una Regla:
+DELETE a http://localhost:8080/bolsapuntos/api/regla/{id}
+PATH: http://localhost:8080/bolsapuntos/api/regla/2
+
+Peticion que retorna los puntos dado un monto:
+GET a http://localhost:8080/bolsapuntos/api/regla/puntos
+PARAMS: monto 200000
+
+
+
+        VENCIMIENTO DE PUNTOS
+Peticion para obtener la lista de Vigencias:
+GET a http//:localhost:8080/bolsapuntos/api/vigencia
+
+Peticion para crear una Vigencia:
+POST a http://localhost:8080/bolsapuntos/api/vigencia
+HEADER: content-type: application/json
+BODY:
+{
+    "fechaInicio": "2021-01-01",
+    "fechaFin": "2021-06-30",
+    "duracion": 200
+}
+
+Peticion para modificar una Vigencia:
+PUT a http://localhost:8080/bolsapuntos/api/vigencia/{id}
+PATH: http://localhost:8080/bolsapuntos/api/vigencia/2
+HEADER: content-type: application/json
+BODY:
+{
+    "fechaInicio": "2021-01-01",
+    "fechaFin": "2021-06-30",
+    "duracion": 200
+}
+
+Peticion para eliminar una Vigencia:
+DELETE a http://localhost:8080/bolsapuntos/api/vigencia/{id}
+PATH: http://localhost:8080/bolsapuntos/api/vigencia/2
+
+Peticion para obtener la Vigencia de una fecha:
+GET a http//:localhost:8080/bolsapuntos/api/vigencia/intervalo
+PARAMS: fecha "2021-03-29"
+
+
+
+        BOLSA DE PUNTOS
+Peticion para obtener la lista de Bolsas de Puntos:
+GET a http//:localhost:8080/bolsapuntos/api/bolsa-puntos
+
+Peticion para obtener una Bolsa de Puntos en especifico:
+GET a http//:localhost:8080/bolsapuntos/api/bolsa-puntos/{id}
+PATH: http//:localhost:8080/bolsapuntos/api/bolsa-puntos/2
+
+Peticion para crear una Bolsa de Puntos:
+POST a http://localhost:8080/bolsapuntos/api/bolsa-puntos
+HEADER: content-type: application/json
+BODY:
+{
+    "fechaAsignacion": "2020-12-31",
+    "fechaVencimiento": "2021-03-26",
+    "puntajeUtilizado": 2,
+    "puntajeAsignado": 10,
+    "saldo": 8,
+    "monto": 500000,
+    "cliente": {
+        "id": 2
+    }
+}
+
+Peticion para modificar una Bolsa de Puntos:
+PUT a http://localhost:8080/bolsapuntos/api/bolsa-puntos/{id}
+PATH: http://localhost:8080/bolsapuntos/api/bolsa-puntos/2
+HEADER: content-type: application/json
+BODY:
+{
+    "fechaVencimiento": "2021-12-31",
+    "puntajeUtilizado": 2,
+    "puntajeAsignado": 20,
+    "saldo": 18,
+}
+
+Peticion para eliminar una Bolsa de Puntos:
+DELETE a http://localhost:8080/bolsapuntos/api/bolsa-puntos/{id}
+
+Peticion para cargar puntos con un Cliente y un monto:
+POST a http://localhost:8080/bolsapuntos/api/bolsa-puntos/cargar
+PARAMS: idCliente 2, monto 600000
+
+Peticion para ver las bolsas de un Cliente:
+GET a http://localhost:8080/bolsapuntos/api/bolsa-puntos/cliente/{id}
+PATH: http://localhost:8080/bolsapuntos/api/bolsa-puntos/cliente/2
+
+Peticion para ver los puntos actuales de un Cliente:
+GET a http://localhost:8080/bolsapuntos/api/bolsa-puntos/puntos-cliente/{id}
+PATH: http://localhost:8080/bolsapuntos/api/bolsa-puntos/puntos-cliente/2
+
