@@ -11,6 +11,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.example.bolsa_puntos.extra.Respuesta;
 import com.example.bolsa_puntos.extra.UtilizarPuntos;
 import com.example.bolsa_puntos.model.BolsaPunto;
 import com.example.bolsa_puntos.model.ConceptoPunto;
@@ -26,26 +27,44 @@ public class UsoPuntosDAO {
     @Inject
     ConceptoDAO conceptoDAO;
 
-    public void usarPuntos(UtilizarPuntos utilizarPuntos) throws Exception{
+    /**
+     * Utilizacion de puntos
+     * 
+     * @param utilizarPuntos
+     * @throws Exception
+     */
+
+    public Respuesta usarPuntos(UtilizarPuntos utilizarPuntos){
+        Respuesta rp = new Respuesta();
         Query q = em.createQuery("select bp from BolsaPunto bp join bp.cliente c where c.id=:idCliente");
         q.setParameter("idCliente", utilizarPuntos.getId_cliente());
 
         try {
             @SuppressWarnings("unchecked")
             List<BolsaPunto> listBP = q.getResultList();
+
+            if (listBP.isEmpty()){ 
+                rp.setMsg("EL CLIENTE NO TIENE BOLSAS ASIGNADA ACTUALMENTE O IDENTIFICADOR DEL CLIENTE NO EXISTE");
+                return rp;
+            }
             //Chekeo de puntos(Funcion)
 
             Optional<ConceptoPunto> cpOptional = Optional.ofNullable(conceptoDAO.ver(utilizarPuntos.getId_concepto_uso()));
             if ( !cpOptional.isPresent()){
-                throw new Exception("NO EXISTE CONCEPTO DE PUNTO CON ESE IDENTIFICADOR");
+               rp.setMsg("NO EXISTE CONCEPTO DE PUNTO CON ESE IDENTIFICADOR");
+               return rp;
             }
-            int sum = 0;
+            
             UsoPunto usoPunto = establecerCabecera(listBP.get(0), cpOptional.get());
+            int puntos_faltantes = usoPunto.getPuntajeUtilizado();
             for (BolsaPunto bp: listBP){
-                if ( sum < usoPunto.getPuntajeUtilizado()){
-                    sum = sum + establecerDetalle(bp, usoPunto);
+                if ( puntos_faltantes > 0 ){
+                    puntos_faltantes =  establecerDetalle(bp, usoPunto, puntos_faltantes);
                 }
             }
+
+            rp.setMsg("UTILIZACIÓN DE PUNTOS COMPLETADA");
+            return rp;
 
         }
         catch(NoResultException nr){
@@ -62,12 +81,26 @@ public class UsoPuntosDAO {
         return usoPunto;
     }
    
-    public Integer establecerDetalle(BolsaPunto bp, UsoPunto usoPunto ){
-
+    public Integer establecerDetalle(BolsaPunto bp, UsoPunto usoPunto, int puntos ){
+        int saldo_punto_utilizado;
         DetalleUsoPunto detalleUsoPunto = new DetalleUsoPunto();
-        detalleUsoPunto.setUsoPunto(usoPunto);
-        detalleUsoPunto.setPuntajeUtilizado(bp.getSaldo());
 
-        //Armar validacion
+        if (puntos >= bp.getSaldo() ) {
+            saldo_punto_utilizado = bp.getSaldo();
+        }
+        else{
+            saldo_punto_utilizado = puntos;
+        }
+        
+        puntos = puntos - saldo_punto_utilizado;
+        bp.setPuntajeUtilizado(saldo_punto_utilizado);
+        bp.setSaldo(bp.getPuntajeAsignado() - bp.getPuntajeUtilizado());
+        //BolsaDao actualizar;
+        detalleUsoPunto.setUsoPunto(usoPunto);
+        detalleUsoPunto.setPuntajeUtilizado(saldo_punto_utilizado);
+        detalleUsoPunto.setBolsa(bp);
+        em.persist(detalleUsoPunto);
+
+        return puntos;
     }
 }

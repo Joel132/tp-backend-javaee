@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.example.bolsa_puntos.ejb.UsoPuntosDAO;
+import com.example.bolsa_puntos.extra.Respuesta;
 import com.example.bolsa_puntos.extra.UtilizarPuntos;
 
 @Path("/usoPuntos")
@@ -21,8 +22,8 @@ public class UsoPuntosRest {
     @POST
     @Path("/")
     public Response utilizar(UtilizarPuntos utilizarPuntos) throws Exception{
-        usoPuntosDAO.usarPuntos(utilizarPuntos);
-        return Response.ok().build();
+        Respuesta respuesta = usoPuntosDAO.usarPuntos(utilizarPuntos);
+        return Response.ok(respuesta).build();
     }
     
 }
