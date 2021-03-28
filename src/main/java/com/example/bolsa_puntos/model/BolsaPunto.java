@@ -2,6 +2,7 @@ package com.example.bolsa_puntos.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -20,10 +21,12 @@ public class BolsaPunto {
 
     @Column(name = "fecha_asignacion", nullable = false)
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fechaAsignacion;
 
     @Column(name = "fecha_vencimiento", nullable = false)
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fechaVencimiento;
 
     @Column(name = "puntaje_utilizado", nullable = false)

@@ -61,7 +61,6 @@ public class Cliente {
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
-    @NotBlank
     private Date fechaNacimiento;
 
 //    @OneToMany(mappedBy = "cliente")
