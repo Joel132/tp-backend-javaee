@@ -7,6 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +50,7 @@ public class VigenciaDAO {
     public VigenciaPunto intervaloPerteneciente(Date fecha){
         Query q = em.createQuery("select v from VigenciaPunto v " +
                 "where v.fechaInicio<=:fec and v.fechaFin>=:fec");
+        q.setParameter("fec", fecha);
         VigenciaPunto v;
         try {
             v = (VigenciaPunto) q.getSingleResult();
@@ -58,5 +62,20 @@ public class VigenciaDAO {
             throw ex;
         }
         return v;
+    }
+
+    /**
+     * Calcula la fecha de vencimiento de una bolsa de acuerdo a
+     * la fecha que se pasa
+     *
+     * @param fecha La fecha de creacion de la bolsa
+     * @return La fecha en que vence la bolsa
+     */
+    public Date fechaVencimiento(Date fecha){
+        VigenciaPunto vigencia = intervaloPerteneciente(fecha);
+        Calendar c = Calendar.getInstance();
+        c.setTime(fecha);
+        c.add(Calendar.DATE, vigencia.getDuracion());
+        return c.getTime();
     }
 }
