@@ -1,7 +1,5 @@
 package com.example.bolsa_puntos.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import javax.persistence.*;
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;

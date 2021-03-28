@@ -26,3 +26,16 @@ http://localhost:8080/bolsapuntos/api/bolsa-puntos/cliente/{id}<br/>
 {id}: ID del Cliente
 <h4>Puntos por Cliente:</h4>
 http://localhost:8080/bolsapuntos/api/bolsa-puntos/puntos-cliente/{id}
+<h4>Uso Puntos</h4>
+http://localhost:8080/bolsapuntos/api/usoPuntos/
+
+Para POST se pasa un JSON(Utilizar puntos)
+```json
+{
+    id_cliente: integer
+    id_concepto_uso: integer
+}
+```
+Para GET(Obtener Reporte)
+
+**Parametros**: int id_cliente, Date fecha_uso, int id_concepto_uso

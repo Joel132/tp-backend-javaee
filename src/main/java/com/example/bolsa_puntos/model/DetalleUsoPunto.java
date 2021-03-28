@@ -21,7 +21,7 @@ public class DetalleUsoPunto {
     @JoinColumn(name = "id_bolsa", referencedColumnName = "id_bolsa")
     private BolsaPunto bolsa;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_uso", referencedColumnName = "id_uso")
     @JsonBackReference
     private UsoPunto usoPunto;
