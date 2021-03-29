@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -54,8 +57,9 @@ public class ClienteDAO {
 
     public List<Cliente> lista_vencimiento(int dias){
         LocalDate lc = LocalDate.now().plusDays(dias);
-        Query q = em.createQuery("select new com.example.bolsa_puntos.model.Cliente(b.cliente.id,b.cliente.nombre,b.cliente.apellido,b.cliente.nroDocumento,b.cliente.tipoDocumento,b.cliente.nacionalidad,b.cliente.email,b.cliente.telefono,b.cliente.fechaNacimiento,sum(b.saldo)) from BolsaPunto b where b.fechaVencimiento<=:fec and b.saldo <> 0 GROUP BY b.cliente");
-        q.setParameter("fec",lc);
+        Date date = Date.from(lc.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Query q = em.createQuery("select new com.example.bolsa_puntos.model.Cliente(b.cliente.id,b.cliente.nombre,b.cliente.apellido,b.cliente.nroDocumento,b.cliente.tipoDocumento,b.cliente.nacionalidad,b.cliente.email,b.cliente.telefono,b.cliente.fechaNacimiento,sum(b.saldo)) from BolsaPunto b where b.fechaVencimiento<=:fec and b.saldo <> 0 GROUP BY b.cliente,b.cliente.nombre,b.cliente.apellido,b.cliente.nroDocumento,b.cliente.tipoDocumento,b.cliente.nacionalidad,b.cliente.email,b.cliente.telefono,b.cliente.fechaNacimiento");
+        q.setParameter("fec",date);
         return (List<Cliente>) q.getResultList();
     }
 }

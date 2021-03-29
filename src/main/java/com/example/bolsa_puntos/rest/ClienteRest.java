@@ -53,4 +53,13 @@ public class ClienteRest {
         clienteDAO.eliminar(id);
         return Response.ok().build();
     }
+
+    @GET
+    @Path("/punto-vencido")
+    public Response puntoVencido(@QueryParam("dias")int dias
+    ){
+
+        return Response.ok(clienteDAO.lista_vencimiento(dias)).build();
+    }
+
 }

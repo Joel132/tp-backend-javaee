@@ -20,7 +20,7 @@ public class UsoPunto {
     @Temporal(TemporalType.DATE)
     private Date fecha;
 
-    @Column(name = "puntaje_utilizado", nullable = false)
+    @Column(name = "puntaje_utlizado", nullable = false)
     private Integer puntajeUtilizado;
 
     @ManyToOne(optional = false)

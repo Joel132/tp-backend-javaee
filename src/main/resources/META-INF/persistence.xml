@@ -15,11 +15,12 @@
         <class>com.example.bolsa_puntos.model.VigenciaPunto</class>
         <class>com.example.bolsa_puntos.model.ConceptoPunto</class>
         <class>com.example.bolsa_puntos.model.BolsaPunto</class>
+        <class>com.example.bolsa_puntos.model.UsoPunto</class>
+        <class>com.example.bolsa_puntos.model.DetalleUsoPunto</class>
         <properties>
             <property name="hibernate.id.new_generator_mappings" value="true"/>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-
         </properties>
     </persistence-unit>
 </persistence>
