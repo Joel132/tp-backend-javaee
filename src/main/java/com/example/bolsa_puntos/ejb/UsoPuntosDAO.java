@@ -129,7 +129,7 @@ public class UsoPuntosDAO {
             return (List<UsoPunto>) q.getResultList();
         }
         else if ( id_cliente == 0 && fecha == null && id_concepto != 0 ){
-            Query q = em.createQuery("select up from UsoPunto up join ConceptoPunto where cp.id=:idConcepto");
+            Query q = em.createQuery("select up from UsoPunto up join ConceptoPunto cp where cp.id=:idConcepto");
             q.setParameter("idConcepto", id_concepto);
 
             return (List<UsoPunto>) q.getResultList();
