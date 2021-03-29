@@ -14,14 +14,14 @@ public class DetalleUsoPunto {
     @Column(name = "id_detalle", nullable = false)
     private Integer id;
 
-    @Column(name = "puntaje_utilizado", nullable = false)
+    @Column(name = "puntaje_utlizado", nullable = false)
     private Integer puntajeUtilizado;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_bolsa", referencedColumnName = "id_bolsa")
     private BolsaPunto bolsa;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_uso", referencedColumnName = "id_uso")
     @JsonBackReference
     private UsoPunto usoPunto;

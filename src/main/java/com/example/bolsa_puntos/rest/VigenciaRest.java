@@ -6,6 +6,9 @@ import com.example.bolsa_puntos.model.VigenciaPunto;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Path("/vigencia")
 @Produces("application/json")
@@ -41,5 +44,17 @@ public class VigenciaRest {
     public Response eliminar(@PathParam("id") int id){
         vigenciaDAO.eliminar(id);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("/intervalo")
+    public Response getIntervalo(@QueryParam("fecha") String fecha){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date fechaIn = sdf.parse(fecha);
+            return Response.ok(vigenciaDAO.intervaloPerteneciente(fechaIn)).build();
+        }catch(ParseException e){
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
     }
 }
