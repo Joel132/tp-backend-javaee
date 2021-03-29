@@ -7,6 +7,7 @@
 </ul>
 <h2>ENDPOINTS</h2>
 PUT Y DELETE SE PASA EL ID COMO PATH PARAM
+<br/><strong>EJEMPLOS DE USOS EN peticiones.txt</strong>
 <h3>Cliente</h3>
 http://localhost:8080/bolsapuntos/api/cliente
 
@@ -71,14 +72,18 @@ http://localhost:8080/bolsapuntos/api/vigencia
 <h3>Bolsa Puntos</h3>
 http://localhost:8080/bolsapuntos/api/bolsa-puntos
 <h4>Cargar Puntos con Cliente y Monto:</h4>
-http://localhost:8080/bolsapuntos/api/bolsa-puntos/cargar<br/>
+http://localhost:8080/bolsapuntos/api/bolsa-puntos/cargar
+<br/>
 <strong>Parametros:</strong> int idCliente, int monto
 <h4>Bolsas por Cliente:</h4>
-http://localhost:8080/bolsapuntos/api/bolsa-puntos/cliente/{id}<br/>
+http://localhost:8080/bolsapuntos/api/bolsa-puntos/cliente/{id}
+<br/>
 {id}: ID del Cliente
 <h4>Puntos por Cliente:</h4>
 http://localhost:8080/bolsapuntos/api/bolsa-puntos/puntos-cliente/{id}
-<h4>Uso Puntos</h4>
+<br/>
+<br/>
+<h3>Uso Puntos</h3>
 http://localhost:8080/bolsapuntos/api/usoPuntos/
 
 Para POST se pasa un JSON(Utilizar puntos)

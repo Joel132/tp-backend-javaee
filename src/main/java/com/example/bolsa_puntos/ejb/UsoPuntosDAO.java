@@ -140,7 +140,7 @@ public class UsoPuntosDAO {
     public List<UsoPunto> listar(int id_cliente, Date fecha, int id_concepto) throws Exception{
         if (id_cliente != 0 && fecha != null && id_concepto != 0 ){
             Query q = em.createQuery(
-                "select up from UsoPunto up join ConceptoPunto cp join Cliente c where up.fecha=:fecha and cp.id=:idConcepto and c.id=:idCliente");
+                "select up from UsoPunto up where up.fecha=:fecha and up.concepto.id=:idConcepto and up.cliente.id=:idCliente");
             q.setParameter("idCliente", id_cliente);
             q.setParameter("fecha", fecha);
             q.setParameter("idConcepto", id_concepto);
@@ -148,7 +148,7 @@ public class UsoPuntosDAO {
             return (List<UsoPunto>) q.getResultList();
         }
         else if ( id_cliente == 0 && fecha == null && id_concepto != 0 ){
-            Query q = em.createQuery("select up from UsoPunto up join ConceptoPunto cp where cp.id=:idConcepto");
+            Query q = em.createQuery("select up from UsoPunto up where up.concepto.id=:idConcepto");
             q.setParameter("idConcepto", id_concepto);
 
             return (List<UsoPunto>) q.getResultList();
@@ -160,20 +160,20 @@ public class UsoPuntosDAO {
             return (List<UsoPunto>) q.getResultList();
         }
         else if ( id_cliente == 0 && fecha != null && id_concepto != 0 ){
-            Query q = em.createQuery("select up from UsoPunto up join ConceptoPunto cp where up.fecha=:fecha and cp.id=:idConcepto");
+            Query q = em.createQuery("select up from UsoPunto up where up.fecha=:fecha and up.concepto.id=:idConcepto");
             q.setParameter("fecha", fecha);
             q.setParameter("idConcepto", id_concepto);
 
             return (List<UsoPunto>) q.getResultList();
         }
         else if ( id_cliente != 0 && fecha == null && id_concepto == 0 ){
-            Query q = em.createQuery("select up from UsoPunto up join Cliente c where c.id=:idCliente");
+            Query q = em.createQuery("select up from UsoPunto up where up.cliente.id=:idCliente");
             q.setParameter("idCliente", id_cliente);
 
             return (List<UsoPunto>) q.getResultList();
         }
         else if ( id_cliente != 0 && fecha == null && id_concepto != 0 ){
-            Query q = em.createQuery("select up from UsoPunto up join Cliente c join ConceptoPunto cp where c.id=:idCliente and cp.id=:idConcepto");
+            Query q = em.createQuery("select up from UsoPunto up where up.cliente.id=:idCliente and up.concepto.id=:idConcepto");
             q.setParameter("idCliente", id_cliente);
             q.setParameter("idConcepto", id_concepto);
             

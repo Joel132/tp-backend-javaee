@@ -28,7 +28,7 @@ public class UsoPunto {
     @JsonBackReference
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "usoPunto")
+    @OneToMany(mappedBy = "usoPunto", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<DetalleUsoPunto> detalles;
 

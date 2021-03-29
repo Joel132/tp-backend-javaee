@@ -19,9 +19,59 @@ public class BolsaPuntoDAO {
     public void agregar(BolsaPunto bolsa){
         em.persist(bolsa);
     }
-    public List<BolsaPunto> lista(){
-        Query q = em.createQuery("select b from BolsaPunto b");
-        return (List<BolsaPunto>) q.getResultList();
+
+    public List<BolsaPunto> lista(int idCliente, int puntosDesde, int puntosHasta) throws Exception{
+        if(idCliente != 0 && puntosDesde != 0 && puntosHasta != 0) {
+            Query q = em.createQuery("select b from BolsaPunto b " +
+                    "where b.cliente.id=:cli " +
+                    "and b.puntajeAsignado>=:minPuntos " +
+                    "and b.puntajeAsignado<=:maxPuntos");
+            q.setParameter("cli", idCliente);
+            q.setParameter("minPuntos", puntosDesde);
+            q.setParameter("maxPuntos", puntosHasta);
+            return (List<BolsaPunto>) q.getResultList();
+        }else if(idCliente != 0 && puntosDesde != 0 && puntosHasta == 0){
+            Query q = em.createQuery("select b from BolsaPunto b " +
+                    "where b.cliente.id=:cli " +
+                    "and b.puntajeAsignado>=:minPuntos");
+            q.setParameter("cli", idCliente);
+            q.setParameter("minPuntos", puntosDesde);
+            return (List<BolsaPunto>) q.getResultList();
+        }else if(idCliente != 0 && puntosDesde == 0 && puntosHasta != 0){
+            Query q = em.createQuery("select b from BolsaPunto b " +
+                    "where b.cliente.id=:cli " +
+                    "and b.puntajeAsignado<=:maxPuntos");
+            q.setParameter("cli", idCliente);
+            q.setParameter("maxPuntos", puntosHasta);
+            return (List<BolsaPunto>) q.getResultList();
+        }else if(idCliente != 0 && puntosDesde == 0 && puntosHasta == 0){
+            Query q = em.createQuery("select b from BolsaPunto b" +
+                    " where b.cliente.id=:cli");
+            q.setParameter("cli", idCliente);
+            return (List<BolsaPunto>) q.getResultList();
+        }else if(idCliente == 0 && puntosDesde != 0 && puntosHasta != 0){
+            Query q = em.createQuery("select b from BolsaPunto b " +
+                    "where b.puntajeAsignado>=:minPuntos " +
+                    "and b.puntajeAsignado<=:maxPuntos");
+            q.setParameter("minPuntos", puntosDesde);
+            q.setParameter("maxPuntos", puntosHasta);
+            return (List<BolsaPunto>) q.getResultList();
+        }else if(idCliente == 0 && puntosDesde != 0 && puntosHasta == 0){
+            Query q = em.createQuery("select b from BolsaPunto b " +
+                    "where b.puntajeAsignado>=:minPuntos");
+            q.setParameter("minPuntos", puntosDesde);
+            return (List<BolsaPunto>) q.getResultList();
+        }else if(idCliente == 0 && puntosDesde == 0 && puntosHasta != 0){
+            Query q = em.createQuery("select b from BolsaPunto b " +
+                    "where b.puntajeAsignado<=:maxPuntos");
+            q.setParameter("maxPuntos", puntosHasta);
+            return (List<BolsaPunto>) q.getResultList();
+        }else if(idCliente == 0 && puntosDesde == 0 && puntosHasta == 0) {
+            Query q = em.createQuery("select b from BolsaPunto b");
+            return (List<BolsaPunto>) q.getResultList();
+        }else{
+            throw new Exception("PARAMETROS NULOS");
+        }
     }
 
     public void eliminar(int id){
