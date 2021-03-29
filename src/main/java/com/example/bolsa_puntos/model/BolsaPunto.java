@@ -70,6 +70,16 @@ public class BolsaPunto {
         this.puntajeUtilizado = puntajeUtilizado;
     }
 
+    /**
+     * UTILIZA PUNTOS QUE DESCUENTA DEL SALDO
+     * @param puntajeAutilizar PUNTOS A UTILIZAR
+     */
+    public void usarPuntos(Integer puntajeAutilizar){
+        if(this.saldo.intValue()<puntajeAutilizar.intValue()) throw new RuntimeException("NO SE CUENTA CON SUFICIENTE PUNTAJE");
+        this.puntajeUtilizado += puntajeAutilizar;
+        this.saldo -= puntajeAutilizar;
+    }
+
     public Integer getPuntajeAsignado() {
         return puntajeAsignado;
     }

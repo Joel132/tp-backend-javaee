@@ -18,6 +18,10 @@ import com.example.bolsa_puntos.model.BolsaPunto;
 import com.example.bolsa_puntos.model.ConceptoPunto;
 import com.example.bolsa_puntos.model.DetalleUsoPunto;
 import com.example.bolsa_puntos.model.UsoPunto;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 
 @Stateless
 public class UsoPuntosDAO {
@@ -40,7 +44,8 @@ public class UsoPuntosDAO {
 
     public Respuesta usarPuntos(UtilizarPuntos utilizarPuntos){
         Respuesta rp = new Respuesta();
-        Query q = em.createQuery("select bp from BolsaPunto bp join bp.cliente c where c.id=:idCliente");
+        //Se traen todas las bolsas del cliente cuyo saldo sea mayor que 0
+        Query q = em.createQuery("select bp from BolsaPunto bp where bp.cliente.id=:idCliente and bp.saldo>0 order by bp.fechaAsignacion, bp.id");
         q.setParameter("idCliente", utilizarPuntos.getId_cliente());
 
         try {
@@ -78,6 +83,21 @@ public class UsoPuntosDAO {
             }
 
             rp.setMsg("UTILIZACIÓN DE PUNTOS COMPLETADA");
+            try {
+                Email email = new SimpleEmail();
+                email.setHostName("smtp.gmail.com");
+                email.setSmtpPort(587);
+                email.setAuthenticator(new DefaultAuthenticator("trabajoPracticoPWB@gmail.com", "TrabajoPracticoBackEnd123!"));
+                email.setSSLOnConnect(true);
+                email.setFrom("poliredmine@gmail.com");
+                email.setSubject("Uso de puntos");
+                email.setMsg("Usted ha accedido al canje de puntos :-)");
+
+                email.addTo(usoPunto.getCliente().getEmail());
+                email.send();
+            } catch (EmailException e) {
+                e.printStackTrace();
+            }
             return rp;
 
         }
@@ -107,8 +127,7 @@ public class UsoPuntosDAO {
         }
         
         puntos = puntos - saldo_punto_utilizado;
-        bp.setPuntajeUtilizado(saldo_punto_utilizado);
-        bp.setSaldo(bp.getPuntajeAsignado() - bp.getPuntajeUtilizado());
+        bp.usarPuntos(saldo_punto_utilizado);
         //BolsaDao actualizar;
         bolsaPuntoDAO.actualizar(bp);
         detalleUsoPunto.setUsoPunto(usoPunto);

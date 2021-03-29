@@ -13,6 +13,11 @@ http://localhost:8080/bolsapuntos/api/cliente
 
 **Parametros**: nombre,apellido,fecha
 
+<h4>Clientes con puntos a vencer en x dias</h4>
+http://localhost:8080/bolsapuntos/api/cliente/punto-vencido?dias=X
+
+**Parametros**: int dias
+
 Para POST se pasa un JSON(Cliente)
 
 ```json
@@ -72,6 +77,9 @@ http://localhost:8080/bolsapuntos/api/vigencia
 <h3>Bolsa Puntos</h3>
 http://localhost:8080/bolsapuntos/api/bolsa-puntos
 <h4>Cargar Puntos con Cliente y Monto:</h4>
+
+**Parametros**: int idCliente, int puntosDesde, int puntosHasta
+
 http://localhost:8080/bolsapuntos/api/bolsa-puntos/cargar
 <br/>
 <strong>Parametros:</strong> int idCliente, int monto
@@ -97,8 +105,5 @@ Para GET(Obtener Reporte)
 
 **Parametros**: int id_cliente, Date fecha_uso, int id_concepto_uso
 
-<h4>Clientes con puntos a vencer en x dias</h4>
-http://localhost:8080/bolsapuntos/api/cliente/punto-vencido?dias=X
 
-**Parametros**: int dias
 
