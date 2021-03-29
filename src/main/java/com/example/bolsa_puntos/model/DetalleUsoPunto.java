@@ -14,7 +14,7 @@ public class DetalleUsoPunto {
     @Column(name = "id_detalle", nullable = false)
     private Integer id;
 
-    @Column(name = "puntaje_utilizado", nullable = false)
+    @Column(name = "puntaje_utlizado", nullable = false)
     private Integer puntajeUtilizado;
 
     @ManyToOne(optional = false)
