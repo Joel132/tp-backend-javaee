@@ -6,6 +6,8 @@ import com.example.bolsa_puntos.model.Cliente;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Path("/cliente")
@@ -20,13 +22,20 @@ public class ClienteRest {
     @Path("/")
     public Response listar(@QueryParam("nombre")String nombre,
                            @QueryParam("apellido") String apellido,
-                           @QueryParam("fecha")Date fecha
+                           @QueryParam("fecha")String fecha
                            ){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaIn;
+        try {
+            fechaIn = sdf.parse(fecha);
+        }catch(ParseException e){
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
         if(nombre != null || apellido != null || fecha != null){
             Cliente cli = new Cliente();
             cli.setNombre(nombre);
             cli.setApellido(apellido);
-            cli.setFechaNacimiento(fecha);
+            cli.setFechaNacimiento(fechaIn);
             return Response.ok(clienteDAO.lista(cli)).build();
         }
         return Response.ok(clienteDAO.lista()).build();

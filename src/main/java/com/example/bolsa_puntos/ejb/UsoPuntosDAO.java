@@ -43,7 +43,8 @@ public class UsoPuntosDAO {
 
     public Respuesta usarPuntos(UtilizarPuntos utilizarPuntos){
         Respuesta rp = new Respuesta();
-        Query q = em.createQuery("select bp from BolsaPunto bp join bp.cliente c where c.id=:idCliente");
+        //Se traen todas las bolsas del cliente cuyo saldo sea mayor que 0
+        Query q = em.createQuery("select bp from BolsaPunto bp where bp.cliente.id=:idCliente and bp.saldo>0 order by bp.fechaAsignacion, bp.id");
         q.setParameter("idCliente", utilizarPuntos.getId_cliente());
 
         try {
@@ -125,8 +126,7 @@ public class UsoPuntosDAO {
         }
         
         puntos = puntos - saldo_punto_utilizado;
-        bp.setPuntajeUtilizado(saldo_punto_utilizado);
-        bp.setSaldo(bp.getPuntajeAsignado() - bp.getPuntajeUtilizado());
+        bp.usarPuntos(saldo_punto_utilizado);
         //BolsaDao actualizar;
         bolsaPuntoDAO.actualizar(bp);
         detalleUsoPunto.setUsoPunto(usoPunto);
