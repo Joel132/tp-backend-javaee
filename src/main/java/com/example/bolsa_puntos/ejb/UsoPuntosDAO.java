@@ -17,6 +17,10 @@ import com.example.bolsa_puntos.model.BolsaPunto;
 import com.example.bolsa_puntos.model.ConceptoPunto;
 import com.example.bolsa_puntos.model.DetalleUsoPunto;
 import com.example.bolsa_puntos.model.UsoPunto;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 
 @Stateless
 public class UsoPuntosDAO {
@@ -77,6 +81,21 @@ public class UsoPuntosDAO {
             }
 
             rp.setMsg("UTILIZACIÓN DE PUNTOS COMPLETADA");
+            try {
+                Email email = new SimpleEmail();
+                email.setHostName("smtp.gmail.com");
+                email.setSmtpPort(587);
+                email.setAuthenticator(new DefaultAuthenticator("trabajoPracticoPWB@gmail.com", "TrabajoPracticoBackEnd123!"));
+                email.setSSLOnConnect(true);
+                email.setFrom("poliredmine@gmail.com");
+                email.setSubject("Uso de puntos");
+                email.setMsg("Usted ha accedido al canje de puntos :-)");
+
+                email.addTo(usoPunto.getCliente().getEmail());
+                email.send();
+            } catch (EmailException e) {
+                e.printStackTrace();
+            }
             return rp;
 
         }
