@@ -76,10 +76,11 @@ http://localhost:8080/bolsapuntos/api/vigencia
 <br/><br/>
 <h3>Bolsa Puntos</h3>
 http://localhost:8080/bolsapuntos/api/bolsa-puntos
+
+<h4>GET</h4>
+**Parametros opcionales**: int idCliente, int puntosDesde, int puntosHasta
+
 <h4>Cargar Puntos con Cliente y Monto:</h4>
-
-**Parametros**: int idCliente, int puntosDesde, int puntosHasta
-
 http://localhost:8080/bolsapuntos/api/bolsa-puntos/cargar
 <br/>
 <strong>Parametros:</strong> int idCliente, int monto
