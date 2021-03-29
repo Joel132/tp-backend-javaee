@@ -4,6 +4,8 @@ public class UtilizarPuntos {
     private Integer id_cliente;
     private Integer id_concepto_uso;
 
+    public UtilizarPuntos() {}
+
     public UtilizarPuntos(Integer id_cliente, Integer id_concepto_uso){
         this.id_cliente = id_cliente;
         this.id_concepto_uso = id_concepto_uso;
