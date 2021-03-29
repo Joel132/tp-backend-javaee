@@ -1,7 +1,8 @@
 package com.example.bolsa_puntos.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -60,6 +61,9 @@ public class Cliente {
     @NotNull
     private Date fechaNacimiento;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Transient
+    private Long puntos;
 //    @OneToMany(mappedBy = "cliente")
 //    @JsonManagedReference
 //    private List<BolsaPunto> puntos=new ArrayList<>();
@@ -67,6 +71,23 @@ public class Cliente {
 //    @OneToMany(mappedBy = "cliente")
 //    @JsonManagedReference
 //    private List<UsoPunto> usoPuntos=new ArrayList<>();
+
+
+    public Cliente() {
+    }
+
+    public Cliente(Integer id, @NotNull @NotBlank String nombre, @NotNull @NotBlank String apellido, @NotNull @Positive Integer nroDocumento, @NotNull @NotBlank String tipoDocumento, @NotNull @NotBlank String nacionalidad, @NotNull @Email String email, @NotNull @NotBlank String telefono, @NotNull Date fechaNacimiento, Long puntos) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.nroDocumento = nroDocumento;
+        this.tipoDocumento = tipoDocumento;
+        this.nacionalidad = nacionalidad;
+        this.email = email;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.puntos = puntos;
+    }
 
     public Integer getId() {
         return id;
@@ -154,5 +175,13 @@ public class Cliente {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public Long getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(Long puntos) {
+        this.puntos = puntos;
     }
 }
