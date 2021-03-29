@@ -6,6 +6,7 @@ import com.example.bolsa_puntos.model.Cliente;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 
 @Path("/cliente")
 @Produces("application/json")
@@ -17,7 +18,17 @@ public class ClienteRest {
 
     @GET
     @Path("/")
-    public Response listar(){
+    public Response listar(@QueryParam("nombre")String nombre,
+                           @QueryParam("apellido") String apellido,
+                           @QueryParam("fecha")Date fecha
+                           ){
+        if(nombre != null || apellido != null || fecha != null){
+            Cliente cli = new Cliente();
+            cli.setNombre(nombre);
+            cli.setApellido(apellido);
+            cli.setFechaNacimiento(fecha);
+            return Response.ok(clienteDAO.lista(cli)).build();
+        }
         return Response.ok(clienteDAO.lista()).build();
     }
 
@@ -42,4 +53,13 @@ public class ClienteRest {
         clienteDAO.eliminar(id);
         return Response.ok().build();
     }
+
+    @GET
+    @Path("/punto-vencido")
+    public Response puntoVencido(@QueryParam("dias")int dias
+    ){
+
+        return Response.ok(clienteDAO.lista_vencimiento(dias)).build();
+    }
+
 }

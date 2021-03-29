@@ -9,12 +9,64 @@
 PUT Y DELETE SE PASA EL ID COMO PATH PARAM
 <h3>Cliente</h3>
 http://localhost:8080/bolsapuntos/api/cliente
+
+**Parametros**: nombre,apellido,fecha
+
+Para POST se pasa un JSON(Cliente)
+
+```json
+{
+    "nombre":string,
+    "apellido":string,
+    "nroDocumento":string,
+    "tipoDocumento":string,
+    "nacionalidad":string,
+    "email":string,
+    "telefono":string,
+    "fechaNacimiento":string
+
+}
+```
+
 <h3>Concepto Puntos</h3>
 http://localhost:8080/bolsapuntos/api/concepto
+
+Para POST se pasa un JSON(Concepto)
+
+```json
+{
+  "descripcion":string,
+  "puntosRequerido": integer
+
+}
+```
+
 <h3>Regla Puntos</h3>
 http//:localhost:8080/bolsapuntos/api/regla
+
+Para POST se pasa un JSON(Regla)
+
+```json
+{
+  "limiteInferior": string,
+  "limiteSuperior": string,
+  "equivalencia": integer
+
+}
+```
+
 <h3>Vencimiento Puntos</h3>
 http://localhost:8080/bolsapuntos/api/vigencia
+
+```json
+{
+  "fechaInicio":string,
+  "fechaFin":string,
+  "duracion":integer
+
+}
+```
+
 <br/><br/>
 <h3>Bolsa Puntos</h3>
 http://localhost:8080/bolsapuntos/api/bolsa-puntos
@@ -39,3 +91,9 @@ Para POST se pasa un JSON(Utilizar puntos)
 Para GET(Obtener Reporte)
 
 **Parametros**: int id_cliente, Date fecha_uso, int id_concepto_uso
+
+<h4>Clientes con puntos a vencer en x dias</h4>
+http://localhost:8080/bolsapuntos/api/cliente/punto-vencido?dias=X
+
+**Parametros**: int dias
+
