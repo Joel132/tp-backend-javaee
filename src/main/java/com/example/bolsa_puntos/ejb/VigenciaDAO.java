@@ -1,6 +1,7 @@
 package com.example.bolsa_puntos.ejb;
 
 import com.example.bolsa_puntos.model.VigenciaPunto;
+import org.jboss.util.Null;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -71,11 +72,15 @@ public class VigenciaDAO {
      * @param fecha La fecha de creacion de la bolsa
      * @return La fecha en que vence la bolsa
      */
-    public Date fechaVencimiento(Date fecha){
+    public Date fechaVencimiento(Date fecha) throws Exception{
         VigenciaPunto vigencia = intervaloPerteneciente(fecha);
         Calendar c = Calendar.getInstance();
         c.setTime(fecha);
-        c.add(Calendar.DATE, vigencia.getDuracion());
+        if(vigencia != null) {
+            c.add(Calendar.DATE, vigencia.getDuracion());
+        }else{
+            throw new Exception("No hay vigencias para dicha fecha.");
+        }
         return c.getTime();
     }
 }

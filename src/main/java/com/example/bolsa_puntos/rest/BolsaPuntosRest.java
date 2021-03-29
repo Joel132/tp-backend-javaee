@@ -5,6 +5,7 @@ import com.example.bolsa_puntos.ejb.ClienteDAO;
 import com.example.bolsa_puntos.ejb.ReglaDAO;
 import com.example.bolsa_puntos.ejb.VigenciaDAO;
 import com.example.bolsa_puntos.model.BolsaPunto;
+import com.example.bolsa_puntos.model.Cliente;
 import com.example.bolsa_puntos.model.VigenciaPunto;
 
 import javax.inject.Inject;
@@ -44,7 +45,11 @@ public class BolsaPuntosRest {
     @POST
     @Path("/")
     public Response agregar(BolsaPunto bolsa){
-        bolsaPuntoDAO.agregar(bolsa);
+        try{
+            bolsaPuntoDAO.agregar(bolsa);
+        }catch (Exception ex){
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
         return Response.ok().build();
     }
 
@@ -68,15 +73,28 @@ public class BolsaPuntosRest {
     public Response cargaPuntos(@QueryParam("idCliente") int idCliente, @QueryParam("monto") int monto){
         BolsaPunto bolsa = new BolsaPunto();
         int puntos = reglaDAO.puntosConseguidos(monto);
-        Date fechaHoy = new Date();
-        bolsa.setFechaAsignacion(fechaHoy);
-        bolsa.setFechaVencimiento(vigenciaDAO.fechaVencimiento(fechaHoy));
-        bolsa.setPuntajeUtilizado(0);
-        bolsa.setPuntajeAsignado(puntos);
-        bolsa.setSaldo(puntos);
-        bolsa.setMonto(monto);
-        bolsa.setCliente(clienteDAO.ver(idCliente));
-        return agregar(bolsa);
+        if(puntos > 0) {
+            Date fechaHoy = new Date();
+            bolsa.setFechaAsignacion(fechaHoy);
+            try {
+                bolsa.setFechaVencimiento(vigenciaDAO.fechaVencimiento(fechaHoy));
+            } catch (Exception e) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("No se pudo asignar una fecha de vencimiento.").build();
+            }
+            bolsa.setPuntajeUtilizado(0);
+            bolsa.setPuntajeAsignado(puntos);
+            bolsa.setSaldo(puntos);
+            bolsa.setMonto(monto);
+            Cliente cliente = clienteDAO.ver(idCliente);
+            if(cliente != null){
+                bolsa.setCliente(cliente);
+            } else {
+                return Response.status(Response.Status.BAD_REQUEST).entity("No se encontro el cliente.").build();
+            }
+            return agregar(bolsa);
+        }else{
+            return Response.ok("El monto no genera ningun punto.").build();
+        }
     }
 
     @GET
