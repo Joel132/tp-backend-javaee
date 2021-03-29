@@ -32,8 +32,15 @@ public class BolsaPuntosRest {
 
     @GET
     @Path("/")
-    public Response listar(){
-        return Response.ok(bolsaPuntoDAO.lista()).build();
+    public Response listar(@QueryParam("idCliente") int idCliente,
+                           @QueryParam("puntosDesde") int puntosDesde,
+                           @QueryParam("puntosHasta") int puntosHasta){
+        try{
+            return Response.ok(bolsaPuntoDAO.lista(idCliente,puntosDesde,puntosHasta)).build();
+        }catch (Exception e){
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+
     }
 
     @GET
