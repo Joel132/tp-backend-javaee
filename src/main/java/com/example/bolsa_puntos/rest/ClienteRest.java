@@ -25,9 +25,9 @@ public class ClienteRest {
                            @QueryParam("fecha")String fecha
                            ){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaIn;
+        Date fechaIn=null;
         try {
-            fechaIn = sdf.parse(fecha);
+            if(fecha!=null) fechaIn = sdf.parse(fecha);
         }catch(ParseException e){
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
