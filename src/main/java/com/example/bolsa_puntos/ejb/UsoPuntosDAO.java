@@ -1,5 +1,6 @@
 package com.example.bolsa_puntos.ejb;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -138,12 +139,12 @@ public class UsoPuntosDAO {
         return puntos;
     }
 
-    public List<UsoPunto> listar(int id_cliente, String fecha, int id_concepto) throws Exception{
-        //Convertir Fecha- String a Date formato yyyy-MM-dd
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaUso = dateFormat.parse(fecha);
+    public List<UsoPunto> listar(int id_cliente, String fecha, int id_concepto) throws ParseException{
 
-        if (id_cliente != 0 && fechaUso != null && id_concepto != 0 ){
+        if (id_cliente != 0 && fecha != null && id_concepto != 0 ){
+            //Convertir Fecha- String a Date formato yyyy-MM-dd
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaUso = dateFormat.parse(fecha);
             Query q = em.createQuery(
                 "select up from UsoPunto up where up.fecha=:fecha and up.concepto.id=:idConcepto and up.cliente.id=:idCliente");
             q.setParameter("idCliente", id_cliente);
@@ -152,39 +153,48 @@ public class UsoPuntosDAO {
 
             return (List<UsoPunto>) q.getResultList();
         }
-        else if ( id_cliente == 0 && fechaUso == null && id_concepto != 0 ){
+        else if ( id_cliente == 0 && fecha == null && id_concepto != 0 ){
             Query q = em.createQuery("select up from UsoPunto up where up.concepto.id=:idConcepto");
             q.setParameter("idConcepto", id_concepto);
 
             return (List<UsoPunto>) q.getResultList();
         }
-        else if ( id_cliente == 0 && fechaUso != null && id_concepto == 0 ){
+        else if ( id_cliente == 0 && fecha != null && id_concepto == 0 ){
+            //Convertir Fecha- String a Date formato yyyy-MM-dd
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaUso = dateFormat.parse(fecha);
             Query q = em.createQuery("select up from UsoPunto up where up.fecha=:fecha");
             q.setParameter("fecha", fechaUso);
 
             return (List<UsoPunto>) q.getResultList();
         }
-        else if ( id_cliente == 0 && fechaUso != null && id_concepto != 0 ){
+        else if ( id_cliente == 0 && fecha != null && id_concepto != 0 ){
+            //Convertir Fecha- String a Date formato yyyy-MM-dd
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaUso = dateFormat.parse(fecha);
             Query q = em.createQuery("select up from UsoPunto up where up.fecha=:fecha and up.concepto.id=:idConcepto");
             q.setParameter("fecha", fechaUso);
             q.setParameter("idConcepto", id_concepto);
 
             return (List<UsoPunto>) q.getResultList();
         }
-        else if ( id_cliente != 0 && fechaUso == null && id_concepto == 0 ){
+        else if ( id_cliente != 0 && fecha == null && id_concepto == 0 ){
             Query q = em.createQuery("select up from UsoPunto up where up.cliente.id=:idCliente");
             q.setParameter("idCliente", id_cliente);
 
             return (List<UsoPunto>) q.getResultList();
         }
-        else if ( id_cliente != 0 && fechaUso == null && id_concepto != 0 ){
+        else if ( id_cliente != 0 && fecha == null && id_concepto != 0 ){
             Query q = em.createQuery("select up from UsoPunto up where up.cliente.id=:idCliente and up.concepto.id=:idConcepto");
             q.setParameter("idCliente", id_cliente);
             q.setParameter("idConcepto", id_concepto);
             
             return (List<UsoPunto>) q.getResultList();
         }
-        else if ( id_cliente != 0 && fechaUso != null && id_concepto == 0 ){
+        else if ( id_cliente != 0 && fecha != null && id_concepto == 0 ){
+            //Convertir Fecha- String a Date formato yyyy-MM-dd
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaUso = dateFormat.parse(fecha);
             Query q = em.createQuery("select up from UsoPunto up join Cliente c where c.id=:idCliente and up.fecha=:fecha");
             q.setParameter("idCliente", id_cliente);
             q.setParameter("fecha", fechaUso);
@@ -192,7 +202,8 @@ public class UsoPuntosDAO {
             return (List<UsoPunto>) q.getResultList();
         }
         else{
-            throw new Exception("PARAMETROS NULOS");
+            Query q = em.createQuery("select up from UsoPunto up");
+            return (List<UsoPunto>) q.getResultList();
         }
     }
 }
